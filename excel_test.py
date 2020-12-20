@@ -29,3 +29,19 @@ def test_get_active_sheet(example_path, factions_location):
     assert english[factions_location].value == 'Factions.csv'
     russian = excel.get_active_sheet(example_path, 'RU')
     assert russian[factions_location].value == 'Factions.csv'
+
+def test_coord():
+    assert excel._coord(1, 'a') == 'A1'
+    assert excel._coord(1, 'A') == 'A1'
+
+def test_colnum():
+    assert excel._colnum('A') == 1
+    assert excel._colnum('Z') == 26
+    assert excel._colnum('AA') == 27
+    assert excel._colnum('AB') == 28
+    assert excel._colnum('BA') == 53
+
+def no_test_get_table(english_example):
+    table = excel.get_table(english_example, 'A', 17, 2, True)
+    print(table)
+    assert False
