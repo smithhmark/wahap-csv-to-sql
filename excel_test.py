@@ -41,7 +41,18 @@ def test_colnum():
     assert excel._colnum('AB') == 28
     assert excel._colnum('BA') == 53
 
-def no_test_get_table(english_example):
-    table = excel.get_table(english_example, 'A', 17, 2, True)
+def test_address():
+    assert excel._cell(0, 0) == "A1"
+    assert excel._cell(0, 1) == "B1"
+    assert excel._cell(1, 0) == "A2"
+    assert excel._cell(1, 1) == "B2"
+    assert excel._cell(17, 2) == "C18"
+
+def test_get_table_header(english_example):
+    headers = excel.get_table_header(english_example, 0, 16, 2)
+    assert headers == ["Field", "Type"]
+
+def test_get_table(english_example):
+    table = excel.get_table(english_example, 0, 16, 2, True)
     print(table)
-    assert False
+    assert len(table) == 7
