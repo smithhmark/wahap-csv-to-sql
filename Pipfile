@@ -17,6 +17,7 @@ toml = "*"
 typing-extensions = "*"
 zipp = "*"
 et_xmlfile = "*"
+requests = "*"
 
 [dev-packages]
 
