@@ -20,6 +20,7 @@ et_xmlfile = "*"
 requests = "*"
 
 [dev-packages]
+pylint = "*"
 
 [requires]
 python_version = "3.8"
