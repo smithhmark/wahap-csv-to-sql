@@ -2,6 +2,12 @@ import pytest
 
 import schema_discovery as sd
 
+DEFAULT_TYPE_OVERRIDES = {
+        "str": "text",
+        "string": "text",
+        "num": "int",
+        }
+
 @pytest.fixture
 def toy_column_spec():
     return { "name": "col1",
@@ -49,7 +55,7 @@ def test_transform_column():
     assert rcvd == expect
 
 def test_table_to_spec(ex_table, ex_spec_bare):
-    rcvd = sd.to_spec("example_table", ex_table)
+    rcvd = sd.to_spec("example_table", ex_table, DEFAULT_TYPE_OVERRIDES)
     print(rcvd)
     print(ex_spec_bare)
     assert rcvd == ex_spec_bare
