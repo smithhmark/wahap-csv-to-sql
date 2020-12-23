@@ -1,3 +1,4 @@
+import argparse
 import requests
 import os
 from datetime import datetime
@@ -53,11 +54,32 @@ def update_cache(urls, cache_dir, verbose=False):
         mtime = _parse_time(tm_str)
         os.utime(local_path, (mtime.timestamp(), mtime.timestamp()))
 
+def build_parser():
+    parser = argparse.ArgumentParser(
+            description="Collect Wahapedia CSVs into local_cache")
+
+    parser.add_argument(
+            "--location",
+            default="data_cache",
+            help="the name and path of the SQL file to produce")
+    parser.add_argument(
+            "-v", "--verbose",
+            default=False,
+            const=True,
+            type=bool,
+            nargs='?',
+            help="the name and path of the SQL file to produce")
+    return parser
+
+
 if __name__ == '__main__':
-    local_dir = "data_cache"
-    if not os.path.exists(local_dir):
-        print("creating: {local_dir}")
-        os.mkdir(local_dir)
+    parser = build_parser()
+    args = parser.parse_args()
+
+    if not os.path.exists(args.location):
+        if args.verbose:
+            print("creating local cache: {args.location}")
+        os.mkdir(args.location)
     urls = [ROOT_URL]
-    update_cache(urls, local_dir, verbose=True)
+    update_cache(urls, args.location, verbose=args.verbose)
 
