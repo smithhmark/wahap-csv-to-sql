@@ -1,3 +1,6 @@
+"""
+The module encapsulates gathering the needed data.
+"""
 import argparse
 import requests
 import os
@@ -26,7 +29,7 @@ def build_local_cache(urls, destination_dir):
         with open(fpath, 'w') as fil:
             fil.write(response.text)
 
-def update_cache(urls, cache_dir, verbose=False):
+def update_cache(urls, cache_dir, verbose=False, mode='char'):
     dirty_list = []
     for url in urls:
         local_path = _local_path(url, cache_dir)
@@ -48,8 +51,12 @@ def update_cache(urls, cache_dir, verbose=False):
         if verbose:
             print(f"retreving {local_path} from {url}")
         response = requests.get(url)
-        with open(local_path, 'w') as fil:
-            fil.write(response.text)
+        if mode == 'char':
+            with open(local_path, 'w') as fil:
+                fil.write(response.text)
+        else:
+            with open(local_path, 'wb') as fil:
+                fil.write(response.content)
         tm_str = response.headers.get("Last-Modified")
         mtime = _parse_time(tm_str)
         os.utime(local_path, (mtime.timestamp(), mtime.timestamp()))
